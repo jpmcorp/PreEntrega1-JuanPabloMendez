@@ -1,2 +1,2 @@
-# PreEntrega1-JuanPabloMendez
-Pre Entrega 1 Curso de JavaScript Coderhouse
+# PreEntrega2-JuanPabloMendez
+Pre Entrega 2 Curso de JavaScript Coderhouse
