@@ -3,25 +3,133 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Primera Entrega</title>
+    <title>Segunda Entrega - Simulador Credito UVA</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="./css/styles.css" />
     <!-- JS -->
-    <script async src="./js/main.js"></script>
+    <script defer src="./js/main.js"></script>
   </head>
   <body>
-    <h1>Primera Entrega</h1>
-    <h2>Simulador de Créditos UVA</h2>
+    <div class="container mt-5">
+      <h1 class="text-center">Segunda Entrega</h1>
+      <h2 class="text-center">Simulador de Créditos UVA</h2>
 
-    <h3>Ejemplo de uso:</h3>
-    <p>
-      <ul>
-        <li>Ingrese el valor actual de la UVA en pesos: 1350 </li>
-        <li>Ingrese el valor actual del Dolar MEP: 1194.47</li>
-        <li>Ingrese el plazo del credito en Años: 20 </li>
-        <li>Ingrese el porcentaje de la Tasa Nominal Anual: 5.5</li>
-        <li>Ingrese el porcentaje de relacion cuota/ingresos: 25</li>
-        <li>Ingrese el porcentaje de inflación estimada anual: 2</li>
-        <li>Ingrese el monto Total del credito en Pesos: 135000000</li>
-    </ul>
-    </p>
+      <h3 class="text-center">
+        Ingrese los siguientes datos para poder ejecutar la simulación:
+      </h3>
+      <form id="creditoForm" class="mt-4">
+        <div class="form-group">
+          <label for="valorUVA">Valor actual de la UVA en pesos:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="valorUVA"
+            name="valorUVA"
+            required
+            oninput="reemplazarComas(this)"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="valorDolarMEP">Valor actual del Dolar MEP:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="valorDolarMEP"
+            name="valorDolarMEP"
+            required
+            oninput="reemplazarComas(this)"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="plazoAnios">Plazo del crédito en años:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="plazoAnios"
+            name="plazoAnios"
+            required
+            oninput="reemplazarComas(this)"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="tasaNominalAnual">Tasa Nominal Anual (%):</label>
+          <input
+            type="text"
+            class="form-control"
+            id="tasaNominalAnual"
+            name="tasaNominalAnual"
+            required
+            oninput="reemplazarComas(this)"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="relacionCuotaIngreso">Relación cuota/ingresos (%):</label>
+          <input
+            type="text"
+            class="form-control"
+            id="relacionCuotaIngreso"
+            name="relacionCuotaIngreso"
+            required
+            oninput="reemplazarComas(this)"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="inflacionAnualEstimada"
+            >Inflación anual estimada (%):</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="inflacionAnualEstimada"
+            name="inflacionAnualEstimada"
+            required
+            oninput="reemplazarComas(this)"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="montoTotalCredito"
+            >Monto total del crédito en pesos:</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="montoTotalCredito"
+            name="montoTotalCredito"
+            required
+            oninput="reemplazarComas(this)"
+          />
+        </div>
+
+        <button
+          type="button"
+          class="btn btn-primary btn-block"
+          onclick="mainProgram()"
+        >
+          Simular Crédito
+        </button>
+      </form>
+
+      <!-- Sección para mostrar los resultados -->
+      <div id="resultados" class="mt-5 d-none">
+        <h3 class="text-center">Resultados de la Simulación</h3>
+        <div id="resultadosContenido"></div>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   </body>
 </html>

@@ -1,0 +1,130 @@
+body {
+  background-color: #f8f9fa;
+}
+
+h1, h2, h3 {
+  color: #343a40;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #004085;
+}
+
+/* Estilos para la tabla de resultados */
+.table {
+  margin-top: 20px;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.table th, .table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.table th {
+  background-color: #007bff;
+  color: white;
+  text-align: center;
+}
+
+.table td {
+  background-color: #365980;
+  color: white;
+  text-align: center;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f2f2f2;
+}
+
+.table-striped tbody tr:hover {
+  background-color: #ddd;
+}
+
+.table td {
+  text-align: center;
+}
+
+/* Estilos para la grilla de resultados */
+.resultados-grid {
+  margin-top: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  display: table;
+  width: 100%;
+  max-height: 400px; 
+  overflow-y: auto;
+}
+
+.resultados-grid .row {
+  border-bottom: 1px solid #ddd;
+  padding: 8px 0;
+  display: table-row;
+}
+
+.resultados-grid .row:nth-of-type(odd) {
+  background-color: #e3f2fd;
+}
+
+.resultados-grid .row:nth-of-type(even) {
+  background-color: #bbdefb;
+}
+
+.resultados-grid .row:hover {
+  background-color: #90caf9;
+}
+
+.resultados-grid .col-2 {
+  text-align: center;
+  padding: 8px 0;
+  border-right: 1px solid #ddd;
+  display: table-cell;
+  width: auto;
+}
+
+.resultados-grid .col-2:last-child {
+  border-right: none;
+}
+
+.resultados-grid .font-weight-bold {
+  background-color: #0d47a1;
+  color: white;
+  padding: 10px 0;
+}
+
+.resultados-grid .header-row {
+  background-color: #0d47a1;
+  color: rgb(0, 162, 255);
+  font-weight: bold;
+  padding: 10px 0;
+  display: table-header-group;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.resultados-grid .data-row {
+  transition: background-color 0.3s;
+  display: table-row-group;
+}
+
+.resultados-grid .data-row:hover {
+  background-color: #64b5f6;
+}
