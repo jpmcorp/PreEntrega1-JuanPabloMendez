@@ -37,17 +37,19 @@ h1, h2, h3 {
   padding: 8px;
 }
 
-.table th {
+.table th { /* Estilos para las cabeceras de la tabla no borrar*/
   background-color: #007bff;
   color: white;
   text-align: center;
 }
 
-.table td {
+
+.table td { /* Estilos para las celdas de la tabla no borrar*/	
   background-color: #365980;
   color: white;
   text-align: center;
 }
+
 
 .table-striped tbody tr:nth-of-type(odd) {
   background-color: #f2f2f2;
@@ -111,7 +113,7 @@ h1, h2, h3 {
 
 .resultados-grid .header-row {
   background-color: #0d47a1;
-  color: rgb(0, 162, 255);
+  color: rgb(0, 162, 255); /* no borrar */
   font-weight: bold;
   padding: 10px 0;
   display: table-header-group;
@@ -127,4 +129,11 @@ h1, h2, h3 {
 
 .resultados-grid .data-row:hover {
   background-color: #64b5f6;
+}
+
+/* Estilos para los mensajes de error */
+.error {
+  color: red;
+  font-size: 0.875em;
+  margin-top: 5px;
 }

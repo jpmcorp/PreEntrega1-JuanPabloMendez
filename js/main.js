@@ -109,11 +109,11 @@ function mostrarResultados(resultado) {
       <tbody>
         <tr>
           <th>Valor Inicial UVA</th>
-          <td>ARS $${formatearNumero(resultado.valorInicialUVA)}</td>
+          <td>${formatearNumero(resultado.valorInicialUVA)}</td>
         </tr>
         <tr>
           <th>Valor Inicial Dolar MEP</th>
-          <td>ARS $${formatearNumero(resultado.valorInicialDolarMEP)}</td>
+          <td>${formatearNumero(resultado.valorInicialDolarMEP)}</td>
         </tr>
         <tr>
           <th>Plazo en Años</th>
@@ -133,17 +133,17 @@ function mostrarResultados(resultado) {
         </tr>
         <tr>
           <th>Monto Total Crédito en UVAs</th>
-          <td>UVAs ${formatearNumero(
+          <td>${formatearNumero(
             resultado.montoTotalCreditoUVAs.toFixed(2)
           )}</td>
         </tr>
         <tr>
           <th>Monto Total Crédito en USD</th>
-          <td>USD $${formatearNumero(resultado.montoTotalCreditoUSD)}</td>
+          <td>${formatearNumero(resultado.montoTotalCreditoUSD)}</td>
         </tr>
         <tr>
           <th>Ingreso Mínimo Necesario</th>
-          <td>ARS $${formatearNumero(resultado.ingresoMinimo.toFixed(2))}</td>
+          <td>${formatearNumero(resultado.ingresoMinimo.toFixed(2))}</td>
         </tr>
       </tbody>
     </table>
@@ -220,23 +220,79 @@ function mainProgram() {
   );
 
   // Validar que todos los valores sean válidos y mayores a cero
-  if (
-    isNaN(valorInicialUVA) ||
-    valorInicialUVA <= 0 ||
-    isNaN(valorInicialDolarMEP) ||
-    valorInicialDolarMEP <= 0 ||
-    isNaN(plazoAnios) ||
-    plazoAnios <= 0 ||
-    isNaN(tasaNominalAnual) ||
-    tasaNominalAnual <= 0 ||
-    isNaN(relacionCuotaIngreso) ||
-    relacionCuotaIngreso <= 0 ||
-    isNaN(inflacionAnualEstimada) ||
-    inflacionAnualEstimada <= 0 ||
-    isNaN(montoTotalCreditoUVA) ||
-    montoTotalCreditoUVA <= 0
-  ) {
-    alert("Por favor, ingrese valores válidos y mayores a cero.");
+  let valid = true;
+
+  if (isNaN(valorInicialUVA) || valorInicialUVA <= 0) {
+    mostrarError(
+      "valorUVA",
+      "Este campo es obligatorio y debe ser mayor a cero."
+    );
+    valid = false;
+  } else {
+    ocultarError("valorUVA");
+  }
+
+  if (isNaN(valorInicialDolarMEP) || valorInicialDolarMEP <= 0) {
+    mostrarError(
+      "valorDolarMEP",
+      "Este campo es obligatorio y debe ser mayor a cero."
+    );
+    valid = false;
+  } else {
+    ocultarError("valorDolarMEP");
+  }
+
+  if (isNaN(plazoAnios) || plazoAnios <= 0) {
+    mostrarError(
+      "plazoAnios",
+      "Este campo es obligatorio y debe ser mayor a cero."
+    );
+    valid = false;
+  } else {
+    ocultarError("plazoAnios");
+  }
+
+  if (isNaN(tasaNominalAnual) || tasaNominalAnual <= 0) {
+    mostrarError(
+      "tasaNominalAnual",
+      "Este campo es obligatorio y debe ser mayor a cero."
+    );
+    valid = false;
+  } else {
+    ocultarError("tasaNominalAnual");
+  }
+
+  if (isNaN(relacionCuotaIngreso) || relacionCuotaIngreso <= 0) {
+    mostrarError(
+      "relacionCuotaIngreso",
+      "Este campo es obligatorio y debe ser mayor a cero."
+    );
+    valid = false;
+  } else {
+    ocultarError("relacionCuotaIngreso");
+  }
+
+  if (isNaN(inflacionAnualEstimada) || inflacionAnualEstimada <= 0) {
+    mostrarError(
+      "inflacionAnualEstimada",
+      "Este campo es obligatorio y debe ser mayor a cero."
+    );
+    valid = false;
+  } else {
+    ocultarError("inflacionAnualEstimada");
+  }
+
+  if (isNaN(montoTotalCreditoUVA) || montoTotalCreditoUVA <= 0) {
+    mostrarError(
+      "montoTotalCredito",
+      "Este campo es obligatorio y debe ser mayor a cero."
+    );
+    valid = false;
+  } else {
+    ocultarError("montoTotalCredito");
+  }
+
+  if (!valid) {
     return;
   }
 
@@ -253,4 +309,25 @@ function mainProgram() {
 
   // Mostrar los resultados en el DOM
   mostrarResultados(resultado);
+}
+
+// Función para mostrar un mensaje de error debajo de un input
+function mostrarError(id, mensaje) {
+  const input = document.getElementById(id);
+  let error = input.nextElementSibling;
+  if (!error || !error.classList.contains("error")) {
+    error = document.createElement("div");
+    error.className = "error";
+    input.parentNode.insertBefore(error, input.nextSibling);
+  }
+  error.textContent = mensaje;
+}
+
+// Función para ocultar el mensaje de error de un input
+function ocultarError(id) {
+  const input = document.getElementById(id);
+  let error = input.nextElementSibling;
+  if (error && error.classList.contains("error")) {
+    error.textContent = "";
+  }
 }
