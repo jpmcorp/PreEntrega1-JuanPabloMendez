@@ -60,13 +60,12 @@ function simularCreditoUVA(
   const montoTotalCreditoUVAs = montoTotalCreditoPesos / valorInicialUVA;
   const montoTotalCreditoUSD = montoTotalCreditoPesos / valorInicialDolarMEP;
 
-  let cuotas = [];
   let saldoUVAs = montoTotalCreditoUVAs;
   let saldoMeses = plazoEnMeses;
   let uvaAjustadaIPC = valorInicialUVA;
 
-  // Calcular las cuotas mensuales para cada mes del plazo
-  for (let i = 0; i < plazoEnMeses; i++) {
+  // Calcular las cuotas mensuales para cada mes del plazo utilizando map
+  const cuotas = Array.from({ length: plazoEnMeses }, (_, i) => {
     let cuota = calcularCuotaMensual(
       i + 1,
       saldoUVAs,
@@ -75,16 +74,20 @@ function simularCreditoUVA(
       uvaAjustadaIPC
     );
 
-    cuotas.push({ cuota });
+    saldoUVAs -= cuota.cuotaMensualUVAs;
+    saldoMeses -= 1;
+    uvaAjustadaIPC *= inflacionMensualPromedio;
 
-    saldoUVAs = saldoUVAs - cuota.cuotaMensualUVAs;
-    saldoMeses = saldoMeses - 1;
-    uvaAjustadaIPC = uvaAjustadaIPC * inflacionMensualPromedio;
-  }
+    return { cuota };
+  });
 
-  // Calcular el ingreso mínimo necesario para la primera cuota
-  const ingresoMinimo =
-    (cuotas[0].cuota.cuotaMensualPesos / relacionCuotaIngreso) * 100;
+  // Calcular el ingreso mínimo necesario para la primera cuota utilizando reduce
+  const ingresoMinimo = cuotas.reduce((acc, cuota) => {
+    return Math.max(
+      acc,
+      (cuota.cuota.cuotaMensualPesos / relacionCuotaIngreso) * 100
+    );
+  }, 0);
 
   // Retornar un objeto con los resultados de la simulación
   return {
@@ -184,11 +187,108 @@ function mostrarResultados(resultado) {
   `;
 
   // Mostrar la sección de resultados
-  document.getElementById("resultados").classList.remove("d-none");
+  const resultadosDiv = document.getElementById("resultados");
+  resultadosDiv.classList.remove("d-none");
+
+  // Desplazar la página hacia abajo para mostrar los resultados
+  resultadosDiv.scrollIntoView({ behavior: "smooth" });
 }
 
-// Función principal que se ejecuta al enviar el formulario
+// Función para mostrar un mensaje de error debajo de un input
+function mostrarError(id, mensaje) {
+  const input = document.getElementById(id);
+  let error = input.nextElementSibling;
+  if (!error || !error.classList.contains("error")) {
+    error = document.createElement("div");
+    error.className = "error";
+    input.parentNode.insertBefore(error, input.nextSibling);
+  }
+  error.textContent = mensaje;
+}
+
+// Función para ocultar el mensaje de error de un input
+function ocultarError(id) {
+  const input = document.getElementById(id);
+  let error = input.nextElementSibling;
+  if (error && error.classList.contains("error")) {
+    error.textContent = "";
+  }
+}
+
+function checkStoredData() {
+  const nombre = localStorage.getItem("nombre");
+  const apellido = localStorage.getItem("apellido");
+  const dni = localStorage.getItem("dni");
+
+  if (nombre && apellido && dni) {
+    const saludoTexto = document.getElementById("saludoTexto");
+    saludoTexto.textContent = `Bienvenido de nuevo, ${nombre} ${apellido}!`;
+    document.getElementById("nombre").value = nombre;
+    document.getElementById("apellido").value = apellido;
+    document.getElementById("dni").value = dni;
+
+    document.getElementById("nombreGroup").style.display = "none";
+    document.getElementById("apellidoGroup").style.display = "none";
+    document.getElementById("dniGroup").style.display = "none";
+    document.getElementById("noSoyYoBtn").classList.remove("d-none");
+  }
+}
+
+function resetStoredData() {
+  localStorage.removeItem("nombre");
+  localStorage.removeItem("apellido");
+  localStorage.removeItem("dni");
+
+  document.getElementById("nombre").value = "";
+  document.getElementById("apellido").value = "";
+  document.getElementById("dni").value = "";
+
+  document.getElementById("nombreGroup").style.display = "block";
+  document.getElementById("apellidoGroup").style.display = "block";
+  document.getElementById("dniGroup").style.display = "block";
+  document.getElementById("noSoyYoBtn").classList.add("d-none");
+
+  const saludoTexto = document.getElementById("saludoTexto");
+  saludoTexto.textContent = "";
+}
+
 function mainProgram() {
+  const nombre = document.getElementById("nombre").value;
+  const apellido = document.getElementById("apellido").value;
+  const dni = document.getElementById("dni").value;
+
+  // Validar que nombre, apellido y dni sean obligatorios y válidos
+  let valid = true;
+
+  if (!nombre) {
+    mostrarError("nombre", "Este campo es obligatorio.");
+    valid = false;
+  } else {
+    ocultarError("nombre");
+  }
+
+  if (!apellido) {
+    mostrarError("apellido", "Este campo es obligatorio.");
+    valid = false;
+  } else {
+    ocultarError("apellido");
+  }
+
+  if (!dni) {
+    mostrarError("dni", "Este campo es obligatorio.");
+    valid = false;
+  } else {
+    ocultarError("dni");
+  }
+
+  if (!valid) {
+    return;
+  }
+
+  localStorage.setItem("nombre", nombre);
+  localStorage.setItem("apellido", apellido);
+  localStorage.setItem("dni", dni);
+
   console.log("***** Simulador de créditos UVA *****");
 
   // Reemplazar comas por puntos en los campos de entrada
@@ -220,7 +320,7 @@ function mainProgram() {
   );
 
   // Validar que todos los valores sean válidos y mayores a cero
-  let valid = true;
+  valid = true;
 
   if (isNaN(valorInicialUVA) || valorInicialUVA <= 0) {
     mostrarError(
@@ -309,25 +409,4 @@ function mainProgram() {
 
   // Mostrar los resultados en el DOM
   mostrarResultados(resultado);
-}
-
-// Función para mostrar un mensaje de error debajo de un input
-function mostrarError(id, mensaje) {
-  const input = document.getElementById(id);
-  let error = input.nextElementSibling;
-  if (!error || !error.classList.contains("error")) {
-    error = document.createElement("div");
-    error.className = "error";
-    input.parentNode.insertBefore(error, input.nextSibling);
-  }
-  error.textContent = mensaje;
-}
-
-// Función para ocultar el mensaje de error de un input
-function ocultarError(id) {
-  const input = document.getElementById(id);
-  let error = input.nextElementSibling;
-  if (error && error.classList.contains("error")) {
-    error.textContent = "";
-  }
 }

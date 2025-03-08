@@ -14,15 +14,63 @@
     <!-- JS -->
     <script defer src="./js/main.js"></script>
   </head>
-  <body>
+  <body onload="checkStoredData()">
     <div class="container mt-5">
       <h1 class="text-center">Segunda Entrega</h1>
       <h2 class="text-center">Simulador de Créditos UVA</h2>
+
+      <div
+        id="saludo"
+        class="text-center mb-4 d-flex justify-content-center align-items-center"
+      >
+        <span id="saludoTexto"></span>
+        <button
+          type="button"
+          class="btn btn-secondary btn-sm ml-2 d-none"
+          id="noSoyYoBtn"
+          onclick="resetStoredData()"
+        >
+          NO SOY YO
+        </button>
+      </div>
 
       <h3 class="text-center">
         Ingrese los siguientes datos para poder ejecutar la simulación:
       </h3>
       <form id="creditoForm" class="mt-4">
+        <div class="form-group" id="nombreGroup">
+          <label for="nombre">Nombre:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="nombre"
+            name="nombre"
+            required
+          />
+        </div>
+
+        <div class="form-group" id="apellidoGroup">
+          <label for="apellido">Apellido:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="apellido"
+            name="apellido"
+            required
+          />
+        </div>
+
+        <div class="form-group" id="dniGroup">
+          <label for="dni">DNI:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="dni"
+            name="dni"
+            required
+          />
+        </div>
+
         <div class="form-group">
           <label for="valorUVA">Valor actual de la UVA en pesos:</label>
           <input
